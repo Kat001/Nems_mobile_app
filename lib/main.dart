@@ -4,28 +4,35 @@ import 'dart:core';
 import 'dart:io';
 import 'package:nems/auth/domain/services/login_service.dart';
 import 'package:nems/auth/screens/check_mrn.dart';
+import 'package:nems/auth/screens/check_otp.dart';
+import 'package:nems/auth/screens/dash_board.dart';
+import 'package:nems/auth/screens/index.dart';
 import 'package:nems/core/api_client.dart';
 
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 void main() {
-  // ApiClient apiClient = ApiClient(Client());
-  // LoginUser user = LoginUserImpl(apiClient);
-  // var data = {
-  //   'mrn': '1084411',
-  // };
-  // user.loginUser(data);
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return ScreenUtilInit(
+      builder: () => MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          textTheme: GoogleFonts.nunitoTextTheme(
+            Theme.of(context).textTheme,
+          ),
+        ),
+        home: const DashBoard(),
+        debugShowCheckedModeBanner: false,
       ),
-      home: const CheckMrn(),
+      designSize: const Size(360, 640),
     );
   }
 }
