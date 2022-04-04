@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'dart:core';
-import 'dart:io';
-import 'package:nems/auth/domain/services/login_service.dart';
-import 'package:nems/auth/screens/check_mrn.dart';
-import 'package:nems/auth/screens/check_otp.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:nems/auth/screens/dash_board.dart';
 import 'package:nems/auth/screens/index.dart';
-import 'package:nems/core/api_client.dart';
+import 'dart:core';
 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,8 +12,42 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
+  bool isLoggedIn = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // autoLogIn();
+  }
+
+  void autoLogIn() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? token = prefs.getString('access');
+
+    // delete
+
+    if (token != null) {
+      setState(() {
+        isLoggedIn = true;
+      });
+
+      return;
+    } else {
+      setState(() {
+        isLoggedIn = false;
+      });
+
+      return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -29,7 +59,8 @@ class MyApp extends StatelessWidget {
             Theme.of(context).textTheme,
           ),
         ),
-        home: const DashBoard(),
+        home: isLoggedIn ? const DashBoard() : const Index(),
+        builder: EasyLoading.init(),
         debugShowCheckedModeBanner: false,
       ),
       designSize: const Size(360, 640),

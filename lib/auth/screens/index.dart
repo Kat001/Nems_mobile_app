@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nems/auth/blocs/checkmrn/checkmrn_bloc.dart';
 import 'package:nems/auth/screens/check_mrn.dart';
 
 class Index extends StatefulWidget {
@@ -29,7 +31,7 @@ class _IndexState extends State<Index> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 52.h,
+                  height: 40.h,
                 ),
                 Text(
                   "Let’s get you the help you need",
@@ -71,7 +73,10 @@ class _IndexState extends State<Index> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const CheckMrn()),
+                            builder: (context) => BlocProvider(
+                                  create: (context) => CheckMrnBloc(),
+                                  child: const CheckMrn(),
+                                )),
                       );
                     },
                     style: ButtonStyle(
